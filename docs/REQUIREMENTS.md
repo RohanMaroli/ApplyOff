@@ -157,7 +157,7 @@ The user's home base: every application, what's left to do, and what's due next.
 
 **Views**
 - **Table:** sortable/filterable list (default on mobile).
-- **Kanban board:** columns per status, drag to move.
+- **Kanban board** (P1): columns per status, drag to move. MVP launches with table + dashboard only.
 - **Calendar:** all deadlines, test dates and interviews (P1); export to Google Calendar via .ics (P1).
 
 **Dashboard (home page after login)**
@@ -168,12 +168,42 @@ The user's home base: every application, what's left to do, and what's due next.
 - Notes per application; portal link and portal username.
 - **Never store portal passwords** (security risk); suggest a password manager instead.
 - Archive / delete an application.
+- **No limit** on applications per user (each one is a small database row; file storage is the real cost and is limited in M6 instead).
 
-### M6. Document hub — P0 (upload/store) / P1 (editors)
-- Upload and store SOPs, CVs, transcripts, test reports, LORs (PDF/DOCX, size limit).
-- Version history per document ("SOP v3").
-- Link documents to one or more applications; checklist ticks itself when linked.
-- Files are private to the owner by default.
+### M6. Document hub — P0 (upload/store) / P1 (sharing, extras)
+One private place for every file an application needs, uploaded once and reused across applications.
+
+**Document types**
+- Writing: SOP, CV, essays, writing sample, portfolio.
+- Academic: transcripts (per semester or consolidated), degree/provisional certificate, school certificates.
+- Tests: score reports (IELTS, GRE, etc., linked to M3).
+- Identity & country-specific: passport, APS certificate, uni-assist VPD, financial documents (bank statement, blocked account confirmation, sponsor letter).
+- Translations and certified copies (often needed for Germany); linked to the original document.
+- LORs: uploaded by recommenders through M9, shown read-only and only if the recommender allows it.
+- "Other" with a custom name.
+
+**Uploading & storage**
+- Drag-and-drop or file picker; PDF, DOCX and images (JPG/PNG); max ~10 MB per file.
+- **Storage quota per user** (e.g. 200 MB to start) shown as a usage bar.
+- In-browser preview for PDFs and images; download; rename; delete.
+
+**Versions**
+- Upload a new version of the same document; older versions kept and restorable ("SOP v1, v2, v3").
+- Optional label per version ("after professor's feedback").
+- **Variants per application:** a base SOP plus tailored copies (e.g. "SOP – TUM", "SOP – Georgia Tech"), each with its own versions.
+
+**Linking to applications**
+- Link a document (or a specific version) to one or more applications; the matching checklist item in M5 ticks itself.
+- Each document page shows which applications use it.
+- Status per document: *Draft → Final → Submitted*.
+- Expiry dates where relevant (passport, test scores) with warnings.
+
+**Security**
+- Files are stored in a **private** storage bucket; only the owner can access them (row-level security).
+- Files are served through **short-lived signed URLs**, never public links.
+- Account deletion deletes all files.
+- P1: **share for review** — a read-only, expiring link to send one document to a friend/mentor for feedback.
+- P2: virus scanning of uploads.
 
 ### M7. SOP builder — P1
 - Guided questionnaire (why this field, why this program, career goals, key experiences).
@@ -265,8 +295,9 @@ application_status_history  id, application_id, status, changed_at
 checklist_items  id, application_id, title, type (document|test|lor|fee|custom), linked_id, done, due_date
 decisions        application_id, result, decided_at, funding_amount, funding_currency, deposit_amount,
                  deposit_deadline, accept_by, conditions
-documents        id, user_id, type, title, current_version_id
-document_versions id, document_id, file_path, created_at
+documents        id, user_id, type, title, status (draft|final|submitted), parent_document_id (variants/translations),
+                 current_version_id, expires_at
+document_versions id, document_id, file_path, file_size, mime_type, label, created_at
 application_documents  application_id, document_id
 recommenders     id, user_id, name, email, relation
 lor_requests     id, recommender_id, application_id, status, token, letter_path
@@ -300,6 +331,7 @@ posts / comments / results   (community, later)
 - **Launch countries: Germany and the USA.** (Very different systems, which tests that the data model is flexible.)
 - **Rankings:** shown, always with their source and year.
 - **Program data:** admin-only for the MVP; user suggestions come in P1.
+- **Tracker:** starts simple (table + dashboard); kanban and calendar come in P1. No limit on applications per user.
 - **Sign-in:** Google OAuth first, email as fallback.
 
 ## 9. Open questions
