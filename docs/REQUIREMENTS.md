@@ -28,8 +28,14 @@
 Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2** = later.
 
 ### M1. Accounts & login — P0
-- Sign up / log in with email + password, and with Google.
-- Email verification and "forgot password" reset.
+- **"Continue with Google" (Google OAuth) is the main sign-in option**, shown first.
+  - One click for both sign-up and log-in; no password to remember.
+  - We request only basic scopes (`openid`, `email`, `profile`): name, email, profile photo. No access to the user's Gmail or Drive.
+  - Name and photo pre-fill the profile (M2); the user can change them.
+  - Implemented through the auth provider (Supabase Auth), not by hand. Needs a Google Cloud project, OAuth consent screen and client ID/secret; redirect URLs set for local dev and production.
+- **Email fallback** for people without/not wanting Google: email + password, with email verification and "forgot password" reset (or a magic link).
+- **Account linking:** if someone signs up with email and later uses Google with the same verified email, it is the same account, not a duplicate.
+- Error handling: user cancels the Google popup, Google account email not verified, provider outage.
 - Stay logged in across visits; log out (including from all devices).
 - Short onboarding after first sign-up that sends the user to set up their profile (M2) and roadmap (M10).
 - Account settings: change email/password, notification preferences (M13).
@@ -194,7 +200,7 @@ posts / comments / results   (community, later)
 |---|---|---|
 | **0. Foundations** (2–4 wks) | Static landing page | HTML, CSS, JavaScript, Git/GitHub |
 | **1. Setup** | Next.js + Tailwind project, deployed to Vercel | React components, routing, deployment |
-| **2. Login** (M1) | Sign up, log in, Google login, password reset, protected pages | Auth, sessions, cookies, route protection |
+| **2. Login** (M1) | Google sign-in first, then email fallback, protected pages | How OAuth works, sessions, cookies, route protection |
 | **3. Profile** (M2) | Profile, academics, experience forms | Forms + validation, database tables & relations, editing/deleting data |
 | **4. Tracker** (M5) ⭐ | Add/edit/delete applications, table + kanban, dashboard | CRUD, relational data, state, server actions/API routes |
 | **5. Program database** (M4, M12) | Program search + filters, simple admin page | Queries, filtering, pagination, roles/permissions |
