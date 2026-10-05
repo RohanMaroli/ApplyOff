@@ -88,6 +88,7 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 The data behind tests (M3), the tracker's checklists (M5) and the roadmap (M10). **Accuracy matters more than size.**
 
 **Structure:** University → Program → Intake → Deadlines.
+A *program* is one specific degree at one university (e.g. "MSc Informatics at TU Munich", "MS in Computer Science at Georgia Tech"). It is the thing a student actually applies to; each has its own requirements, deadlines and fees, so one university has many programs.
 
 **University page**
 - Name, country, city, website, type (public/private), rankings shown with their source (e.g. QS 2026), campus photo/logo.
@@ -248,9 +249,16 @@ posts / comments / results   (community, later)
 
 **MVP = phases 1–6.** Everything after that ships one module at a time.
 
-## 8. Open questions
+## 8. Decisions made
 
-- Which countries first? (Suggest: start with 1–2, e.g. Germany + US, and do their data well.)
-- Who maintains program data, and how often is it re-verified?
+- **Launch countries: Germany and the USA.** (Very different systems, which tests that the data model is flexible.)
+- **Rankings:** shown, always with their source and year.
+- **Program data:** admin-only for the MVP; user suggestions come in P1.
+- **Sign-in:** Google OAuth first, email as fallback.
+
+## 9. Open questions
+
+- Fields to cover first (e.g. CS / Data Science / Engineering)?
+- Who maintains program data long-term, and how often is it re-verified?
 - Monetisation: free core + paid AI credits? University partnerships (with neutrality kept)?
 - Anonymity rules for the community and results feed.
