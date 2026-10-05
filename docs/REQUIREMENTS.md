@@ -8,6 +8,7 @@
 ## 1. Vision & positioning
 
 - **Self-serve and neutral.** Tools students use themselves, not a funnel into paid counselling. No commission-driven university recommendations.
+- **Start from zero.** Built for people who don't know where to begin: the site guides them from "I want to study abroad" through tests, documents and applications to an admit.
 - **One profile drives everything.** Enter your background once; the shortlist, roadmap, documents and tracker all use it.
 - **Community organised by program + intake** (e.g. "Fall 2027 · TU Munich · MSc Informatics").
 
@@ -41,8 +42,23 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
   - **Grade conversions** shown for reference only, clearly labelled as approximate (e.g. German modified Bavarian formula, a rough 4.0 equivalent); the original grade is what applications use.
 - Applications and requirement checks use the latest *declared* grade, flagging "degree in progress" where a program needs a final transcript.
 - A reminder after each semester's results to update the record.
-- Test scores: GRE, GMAT, IELTS, TOEFL, Duolingo (score + date).
-- Experience: work, research, projects, publications.
+- **Tests** (GRE, GMAT, IELTS, TOEFL, PTE, Duolingo, language tests like TestDaF/Goethe):
+  - Which tests are needed is worked out from the user's target programs (M2), so beginners don't have to know.
+  - Status per test: *Not needed → Needed → Preparing → Booked (date) → Taken → Score received*.
+  - Target score (suggested from target programs' requirements) and test date.
+  - **Score fields stay blank until results arrive**; the user enters them then. Section scores too (e.g. GRE Verbal/Quant/AWA, IELTS L/R/W/S).
+  - Score expiry date shown (e.g. GRE 5 years, IELTS/TOEFL 2 years) with a warning if it expires before the intake.
+  - Prep for each test lives in M12.
+- **Experience**, as separate types because universities weigh them differently:
+  - **Full-time work:** company, role, dates, description. Total months is calculated (some programs, e.g. MBA/management, require a minimum).
+  - **Internships:** company, role, dates, description; counted separately from full-time work.
+  - **Research:** lab/professor, topic, dates, outcome; important for research-based programs and German universities. A good source for SOPs and LORs.
+  - **Projects:** academic/personal, tech used, link (GitHub/portfolio).
+  - **Publications:** title, venue, authors, status (*Under review / Accepted / Published*), link.
+  - **Certifications & courses:** e.g. Coursera, AWS.
+  - **Extracurriculars & volunteering:** leadership, clubs, competitions, awards.
+  - Each item can be marked *ongoing*, and can be tagged as a possible LOR source (its supervisor/manager).
+  - This data later fills the CV builder (M6) and suggests SOP material (M5).
 - Preferences: target countries, fields, intake (e.g. Fall 2027), budget.
 - Users can edit or delete their account and data.
 
@@ -85,9 +101,18 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 - Status per recommender per application: *Not asked → Asked → Agreed → Submitted*.
 - Automatic polite reminders; the applicant can't read the letter unless the recommender allows it.
 
+### M12. Test prep — P1
+- Hub per test (IELTS, GRE first; TOEFL, GMAT, Duolingo, PTE later): format explained, scoring, what score is "good" for the user's targets.
+- Study plan generated from test date + target score + available hours per week; shows on the roadmap.
+- Curated free resources per section (official materials first), plus practice question sets.
+- Diagnostic test to find a starting level (P2); practice tests with score tracking over time (P2).
+- AI help (P2): IELTS writing/essay feedback, GRE AWA feedback, speaking practice prompts.
+- Booking guidance: where/how to book, fees, how early to book, sending scores to universities.
+
 ### M8. Roadmap & prep — P1
 - Generate a personalised timeline from intake + target countries + profile (e.g. "T-12 months: shortlist; T-9: take GRE; T-6: request LORs").
-- Roadmap items become checkable tasks with dates.
+- Onboarding for beginners: a short questionnaire (field, countries, intake, budget, where you are now) gives a starting roadmap, so a user with nothing figured out knows their first step.
+- Roadmap items become checkable tasks with dates, including test prep milestones from M12.
 - Prep library: guides per country (visa, costs, timelines), per test (GRE/IELTS resources), sample SOPs (with permission), FAQ.
 - Guides are public pages (good for SEO / bringing in users).
 
@@ -136,7 +161,10 @@ academic_records id, user_id, university, degree, major, status(in_progress|comp
                  total_semesters, semesters_completed, grading_system, scale_min, scale_max,
                  current_grade, expected_final_grade, expected_grad_date, backlogs_total, backlogs_active
 semester_results id, academic_record_id, semester_no, grade (null = result pending)
-test_scores      id, user_id, test, score, date
+tests            id, user_id, test, status, target_score, test_date, score (null until received),
+                 section_scores(json), expiry_date
+experiences      id, user_id, type(work|internship|research|project|publication|certification|extracurricular),
+                 title, organisation, start_date, end_date (null = ongoing), description, link, details(json)
 universities     id, name, country, city, website
 programs         id, university_id, name, degree, field, tuition, fee, requirements(json), portal_url, last_verified
 deadlines        id, program_id, intake, round, date
@@ -165,7 +193,7 @@ posts / comments / results   (community, later)
 | **→ Launch MVP** | Get 10–20 real applicants using it | Feedback, analytics, bug fixing |
 | **6. LOR manager** (M7) | Recommender links + emails | Transactional email, secure tokens, background jobs |
 | **7. SOP/CV + AI** (M5, M6) | Editors, PDF export, AI feedback | Rich-text editors, LLM APIs, prompt design, rate limiting |
-| **8. Roadmap & guides** (M8) | Generated timeline, public guide pages | Date logic, content/SEO, static generation |
+| **8. Roadmap, guides & test prep** (M8, M12) | Onboarding, generated timeline, test hubs + study plans, public guide pages | Date logic, content/SEO, static generation |
 | **9. Community** (M9) | Results feed, groups, moderation | Realtime, moderation, scaling |
 
 **MVP = phases 1–5.** Everything after that ships one module at a time.
