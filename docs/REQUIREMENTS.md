@@ -85,11 +85,39 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 - Booking guidance: where/how to book, fees, how early to book, sending scores to universities.
 
 ### M4. Program database — P0 (basic) / P1 (rich)
-- Searchable list of universities and programs: name, country, degree, field, intake(s).
-- Per program: deadlines, application fee, tuition, required tests + minimum scores, required documents (SOP, CV, # of LORs, transcripts, portfolio), application portal link.
-- Filters: country, field, tuition range, test requirements, deadline.
-- Data source: admin-entered first; later user-submitted corrections (P1) that an admin approves.
-- Every program shows a "last verified" date.
+The data behind tests (M3), the tracker's checklists (M5) and the roadmap (M10). **Accuracy matters more than size.**
+
+**Structure:** University → Program → Intake → Deadlines.
+
+**University page**
+- Name, country, city, website, type (public/private), rankings shown with their source (e.g. QS 2026), campus photo/logo.
+- Country-level info inherited from a country page: cost of living, visa, post-study work rights, language.
+
+**Program page**
+- Name, degree (MSc/MS/MA/MEng/MBA…), field + specialisations, duration, language of instruction, mode (full-time/part-time), course structure link.
+- **Intakes:** Winter/Fall, Summer/Spring; each with **deadlines** (several rounds where relevant, e.g. US priority/final, UK rolling, Germany EU vs non-EU dates) and the time zone.
+- **Costs:** tuition per year/semester with currency (and converted to the user's currency as an estimate), semester contribution (Germany), application fee, fee waivers.
+- **Requirements:**
+  - Minimum grade (stored with its scale), required background/prerequisites (e.g. "bachelor's in CS or related", ECTS credits in maths/programming for German programs).
+  - Tests: which are required/optional/waived, minimum overall and section scores, accepted alternatives (e.g. IELTS 6.5 *or* TOEFL 90 *or* Duolingo 120), GRE optional/required.
+  - Documents: SOP (word limit, prompt), CV format, number and type of LORs (academic/professional), transcripts, degree certificate, portfolio, writing sample, essays.
+  - Country/process extras: e.g. APS certificate (Indian/Chinese/Vietnamese applicants to Germany), uni-assist/VPD, financial proof/blocked account, interviews.
+- **How to apply:** portal type (university portal, uni-assist, other) with link, step-by-step notes.
+- **Sources & freshness:** source URL for each piece of data, "last verified" date, and a "Report incorrect info" button. Stale data (not verified this cycle) is clearly flagged.
+
+**Search & discovery**
+- Search by name; filters: country, city, field, degree, intake, tuition range, language, GRE required or not, deadline range, application fee.
+- Sort by deadline, tuition, name, ranking.
+- **Eligibility hint** from the user's profile (M2/M3): "Meets requirements / Missing IELTS score / Grade below listed minimum." Always labelled as a hint, not an admission prediction.
+- **Shortlist:** save programs; one click to move a saved program into the tracker (M5).
+- **Compare** 2–4 programs side by side (P1).
+- Admit/reject stats from the community (M11) shown on the program page (P2).
+
+**Data sourcing**
+- P0: admin-entered from official university pages, for 1–2 countries and a limited set of fields (e.g. CS/Data Science/Engineering), ~50–100 programs done properly.
+- P1: users can suggest corrections or new programs; an admin approves them (M12). Bulk import from CSV for the admin.
+- P2: scheduled checks that flag when a source page has changed; possibly scraping where allowed by the site's terms.
+- Annual "new cycle" workflow: copy last year's deadlines as *unconfirmed* until verified.
 
 ### M5. Application tracker — P0 ⭐
 - Add a program to "My applications" (from the database or as a custom entry).
@@ -179,9 +207,16 @@ tests            id, user_id, test, status, target_score, test_date, score (null
                  section_scores(json), expiry_date
 experiences      id, user_id, type(work|internship|research|project|publication|certification|extracurricular),
                  title, organisation, start_date, end_date (null = ongoing), description, link, details(json)
-universities     id, name, country, city, website
-programs         id, university_id, name, degree, field, tuition, fee, requirements(json), portal_url, last_verified
-deadlines        id, program_id, intake, round, date
+countries        code, name, currency, info(json: visa, living costs, work rights)
+universities     id, name, country_code, city, website, type, rankings(json)
+programs         id, university_id, name, degree, field, language, duration_months, tuition, tuition_currency,
+                 application_fee, portal_type, portal_url, sources(json), last_verified
+program_requirements  program_id, min_grade, grade_scale, background(text), documents(json), extras(json)
+program_tests    program_id, test, required(required|optional|not_needed), min_overall, min_sections(json)
+intakes          id, program_id, term (winter|summer|fall|spring), year
+deadlines        id, intake_id, round, applicant_group (all|eu|non_eu), date, timezone, confirmed
+shortlists       user_id, program_id, created_at
+corrections      id, program_id, user_id, field, suggested_value, status (pending|approved|rejected)
 applications     id, user_id, program_id (nullable for custom), status, priority, deadline, notes
 documents        id, user_id, type, title, current_version_id
 document_versions id, document_id, file_path, created_at
