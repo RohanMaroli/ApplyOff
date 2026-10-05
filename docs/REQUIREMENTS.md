@@ -121,13 +121,53 @@ A *program* is one specific degree at one university (e.g. "MSc Informatics at T
 - Annual "new cycle" workflow: copy last year's deadlines as *unconfirmed* until verified.
 
 ### M5. Application tracker — P0 ⭐
-- Add a program to "My applications" (from the database or as a custom entry).
-- Status pipeline: *Researching → Preparing → Submitted → Interview → Admitted / Rejected / Waitlisted → Accepted / Declined*.
-- Per application: deadline, fee paid, portal login link, notes, priority (dream / target / safe).
-- Auto-generated document checklist based on the program's requirements.
-- Views: table, kanban board (drag between statuses), calendar of deadlines.
-- Dashboard: count by status, next 3 deadlines, overdue items.
-- Email reminders before deadlines (P1).
+The user's home base: every application, what's left to do, and what's due next.
+
+**Adding applications**
+- From a program page or the shortlist (M4) in one click; requirements, deadlines and fees are copied in automatically.
+- **Custom application** for programs not in the database: the user types name, university, deadline and requirements themselves.
+- Choose the intake and deadline round (e.g. US priority vs final, Germany non-EU date).
+- Priority tag: *Dream / Target / Safe*.
+
+**Status pipeline** (same core for every country, with country-specific steps where needed)
+- *Shortlisted → Preparing → Submitted → Under review → Interview (optional) → Decision → Final choice*
+- Germany via uni-assist adds: *Submitted to uni-assist → Forwarded to university*.
+- Decisions: *Admitted / Conditionally admitted / Waitlisted / Rejected*.
+- Final choice: *Accepted / Declined / Deferred*.
+- Each status change is timestamped (history), which later feeds community stats (M11, opt-in).
+
+**Per-application checklist** (generated from the program's requirements, M4)
+- Items like: SOP (word limit), CV, 2 LORs, transcripts, IELTS score sent, GRE score sent, APS certificate, application fee paid, uni-assist fee paid.
+- Items tick themselves when linked data exists: a document uploaded and linked (M6), a test score received (M3), a LOR submitted (M9). The user can also tick manually.
+- Users can add their own items.
+- **Readiness %** per application, plus "blocking" items highlighted (e.g. IELTS not taken yet but deadline in 30 days).
+
+**Deadlines**
+- Countdown ("12 days left"), shown in the user's time zone with the university's time zone on hover.
+- Warnings: deadline in 14 / 7 / 2 days, overdue, test score not received in time.
+- Email reminders (P1, via M13).
+
+**Fees & money**
+- Application fee per application, paid / not paid; total spent and total still to pay.
+- Fee waiver flag.
+
+**Decisions & offers**
+- Record decision date, scholarship/funding/assistantship offered (amount + currency), deposit amount and deadline, deadline to accept the offer, conditions (e.g. "submit final transcript").
+- **Compare offers** side by side: tuition, funding, net cost, ranking, location (P1).
+
+**Views**
+- **Table:** sortable/filterable list (default on mobile).
+- **Kanban board:** columns per status, drag to move.
+- **Calendar:** all deadlines, test dates and interviews (P1); export to Google Calendar via .ics (P1).
+
+**Dashboard (home page after login)**
+- Counts by status, next 3 deadlines, overdue checklist items, readiness of each application, total fees.
+- "What to do next" suggestions linked to the roadmap (M10).
+
+**Other**
+- Notes per application; portal link and portal username.
+- **Never store portal passwords** (security risk); suggest a password manager instead.
+- Archive / delete an application.
 
 ### M6. Document hub — P0 (upload/store) / P1 (editors)
 - Upload and store SOPs, CVs, transcripts, test reports, LORs (PDF/DOCX, size limit).
@@ -218,7 +258,13 @@ intakes          id, program_id, term (winter|summer|fall|spring), year
 deadlines        id, intake_id, round, applicant_group (all|eu|non_eu), date, timezone, confirmed
 shortlists       user_id, program_id, created_at
 corrections      id, program_id, user_id, field, suggested_value, status (pending|approved|rejected)
-applications     id, user_id, program_id (nullable for custom), status, priority, deadline, notes
+applications     id, user_id, program_id (null = custom), intake_id, deadline_id, custom_name, custom_university,
+                 deadline (copied, editable), status, priority, fee, fee_paid, fee_waiver, portal_url,
+                 portal_username, notes, archived
+application_status_history  id, application_id, status, changed_at
+checklist_items  id, application_id, title, type (document|test|lor|fee|custom), linked_id, done, due_date
+decisions        application_id, result, decided_at, funding_amount, funding_currency, deposit_amount,
+                 deposit_deadline, accept_by, conditions
 documents        id, user_id, type, title, current_version_id
 document_versions id, document_id, file_path, created_at
 application_documents  application_id, document_id
