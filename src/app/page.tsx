@@ -1,69 +1,52 @@
-import Image from "next/image";
+import Link from "next/link";
+import { FormAlert } from "@/components/FormAlert";
 
-export default function Home() {
+const STEPS = [
+  { title: "Build your profile", text: "Grades (even unfinished ones), tests and experience, entered once." },
+  { title: "Shortlist programs", text: "Germany and USA master's programs with real requirements and deadlines." },
+  { title: "Prepare", text: "A roadmap, test prep plans, and help with your SOP, CV and LORs." },
+  { title: "Track and get admitted", text: "Every deadline, checklist and document in one place." },
+];
+
+type Props = { searchParams: Promise<{ message?: string }> };
+
+export default async function Home({ searchParams }: Props) {
+  const { message } = await searchParams;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+      {message && (
+        <div className="mx-auto mb-8 max-w-xl">
+          <FormAlert message={message} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      )}
+
+      <section className="mx-auto max-w-3xl space-y-6 text-center">
+        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
+          Your master&apos;s abroad, from &quot;where do I start?&quot; to admit.
+        </h1>
+        <p className="text-lg text-zinc-600">
+          ApplyOff is the free, all-in-one hub for applying to master&apos;s programs in Germany and the USA.
+        </p>
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <Link href="/signup" className="rounded-lg bg-indigo-600 px-6 py-3 font-medium text-white hover:bg-indigo-700">
+            Get started — it&apos;s free
+          </Link>
+          <Link href="/login" className="rounded-lg border border-zinc-300 bg-white px-6 py-3 font-medium text-zinc-900 hover:bg-zinc-50">
+            Log in
+          </Link>
         </div>
-      </main>
+      </section>
+
+      <section className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {STEPS.map((step, i) => (
+          <div key={step.title} className="rounded-xl border border-zinc-200 bg-white p-5">
+            <span className="text-sm font-semibold text-indigo-600">Step {i + 1}</span>
+            <h2 className="mt-1 font-medium text-zinc-900">{step.title}</h2>
+            <p className="mt-1 text-sm text-zinc-600">{step.text}</p>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }
