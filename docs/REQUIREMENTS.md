@@ -52,15 +52,15 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 - Applications and requirement checks use the latest *declared* grade, flagging "degree in progress" where a program needs a final transcript.
 - A reminder after each semester's results to update the record.
 - **Experience**, as separate types because universities weigh them differently:
-- **Full-time work:** company, role, dates, description. Total months is calculated (some programs, e.g. MBA/management, require a minimum).
-- **Internships:** company, role, dates, description; counted separately from full-time work.
-- **Research:** lab/professor, topic, dates, outcome; important for research-based programs and German universities. A good source for SOPs and LORs.
-- **Projects:** academic/personal, tech used, link (GitHub/portfolio).
-- **Publications:** title, venue, authors, status (*Under review / Accepted / Published*), link.
-- **Certifications & courses:** e.g. Coursera, AWS.
-- **Extracurriculars & volunteering:** leadership, clubs, competitions, awards.
-- Each item can be marked *ongoing*, and can be tagged as a possible LOR source (its supervisor/manager).
-- This data later fills the CV builder (M8) and suggests SOP material (M7).
+  - **Full-time work:** company, role, dates, description. Total months is calculated (some programs, e.g. MBA/management, require a minimum).
+  - **Internships:** company, role, dates, description; counted separately from full-time work.
+  - **Research:** lab/professor, topic, dates, outcome; important for research-based programs and German universities. A good source for SOPs and LORs.
+  - **Projects:** academic/personal, tech used, link (GitHub/portfolio).
+  - **Publications:** title, venue, authors, status (*Under review / Accepted / Published*), link.
+  - **Certifications & courses:** e.g. Coursera, AWS.
+  - **Extracurriculars & volunteering:** leadership, clubs, competitions, awards.
+  - Each item can be marked *ongoing*, and can be tagged as a possible LOR source (its supervisor/manager).
+  - This data later fills the CV builder (M8) and suggests SOP material (M7).
 
 ### M3. Tests — tracking P0 / prep P1
 **Tracking** (GRE, GMAT, IELTS, TOEFL, PTE, Duolingo, language tests like TestDaF/Goethe):
