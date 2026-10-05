@@ -177,7 +177,8 @@ One private place for every file an application needs, uploaded once and reused 
 - Writing: SOP, CV, essays, writing sample, portfolio.
 - Academic: transcripts (per semester or consolidated), degree/provisional certificate, school certificates.
 - Tests: score reports (IELTS, GRE, etc., linked to M3).
-- Identity & country-specific: passport, APS certificate, uni-assist VPD, financial documents (bank statement, blocked account confirmation, sponsor letter).
+- Country-specific: APS certificate, uni-assist VPD.
+- **Not stored: passports, bank statements, blocked account confirmations, sponsor/income documents.** See "Sensitive documents" below.
 - Translations and certified copies (often needed for Germany); linked to the original document.
 - LORs: uploaded by recommenders through M9, shown read-only and only if the recommender allows it.
 - "Other" with a custom name.
@@ -196,7 +197,14 @@ One private place for every file an application needs, uploaded once and reused 
 - Link a document (or a specific version) to one or more applications; the matching checklist item in M5 ticks itself.
 - Each document page shows which applications use it.
 - Status per document: *Draft → Final → Submitted*.
-- Expiry dates where relevant (passport, test scores) with warnings.
+- Expiry dates where relevant (e.g. test score reports) with warnings.
+
+**Sensitive documents (decision: track, don't store)**
+- Passports and financial documents are needed for applications and visas, but users upload them straight to university portals / embassies. ApplyOff doesn't need the files to be useful.
+- Storing them would make the site a high-value target and bring legal duties (India's DPDP Act, GDPR for German users) that a small team shouldn't take on.
+- Instead they appear as **checklist items without uploads**: "Passport — valid until 03/2029 ✅", "Proof of funds — ⬜", with guidance on what's needed and expiry warnings (e.g. passport must be valid for the whole stay).
+- Upload UI warns users not to upload IDs or bank statements as "Other".
+- Can be revisited later only with stronger protections (encryption, audits).
 
 **Security**
 - Files are stored in a **private** storage bucket; only the owner can access them (row-level security).
@@ -331,6 +339,7 @@ posts / comments / results   (community, later)
 - **Launch countries: Germany and the USA.** (Very different systems, which tests that the data model is flexible.)
 - **Rankings:** shown, always with their source and year.
 - **Program data:** admin-only for the MVP; user suggestions come in P1.
+- **Sensitive documents:** passports and financial documents are tracked as checklist items but never uploaded/stored.
 - **Tracker:** starts simple (table + dashboard); kanban and calendar come in P1. No limit on applications per user.
 - **Sign-in:** Google OAuth first, email as fallback.
 
