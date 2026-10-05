@@ -28,7 +28,19 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 
 ### M1. Accounts & profile — P0
 - Sign up / log in with email + Google.
-- Profile: name, country, undergrad degree, university, GPA (with scale), graduation year.
+- Profile: name, country, current location.
+- **Academic record** (one per degree; usually the bachelor's, optionally a previous master's/diploma):
+  - University, degree, major, country.
+  - **Status:** *In progress* or *Completed*.
+  - **Duration:** total semesters (or years) and semesters completed so far.
+  - **Grading system:** 10-point CGPA, 4.0 GPA, percentage, German 1.0–5.0, UK classification, or other with a custom min/max. Grades are always stored with their scale, never as a bare number.
+  - **Current CGPA:** the grade "up to semester N", which is what most applications ask for when a degree isn't finished.
+  - **Per-semester grades** (optional): SGPA/percentage per semester; a semester can be marked *result pending*. If entered, the current CGPA can be calculated from them, and the trend (improving/declining) is shown.
+  - **Expected final CGPA** (optional, labelled as an estimate) and **expected graduation date**.
+  - **Backlogs / failed courses:** total and currently active (many universities ask).
+  - **Grade conversions** shown for reference only, clearly labelled as approximate (e.g. German modified Bavarian formula, a rough 4.0 equivalent); the original grade is what applications use.
+- Applications and requirement checks use the latest *declared* grade, flagging "degree in progress" where a program needs a final transcript.
+- A reminder after each semester's results to update the record.
 - Test scores: GRE, GMAT, IELTS, TOEFL, Duolingo (score + date).
 - Experience: work, research, projects, publications.
 - Preferences: target countries, fields, intake (e.g. Fall 2027), budget.
@@ -119,7 +131,11 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 
 ```
 users            id, email, name, created_at
-profiles         user_id, country, degree, gpa, gpa_scale, grad_year, intake, ...
+profiles         user_id, country, intake, target_countries, ...
+academic_records id, user_id, university, degree, major, status(in_progress|completed),
+                 total_semesters, semesters_completed, grading_system, scale_min, scale_max,
+                 current_grade, expected_final_grade, expected_grad_date, backlogs_total, backlogs_active
+semester_results id, academic_record_id, semester_no, grade (null = result pending)
 test_scores      id, user_id, test, score, date
 universities     id, name, country, city, website
 programs         id, university_id, name, degree, field, tuition, fee, requirements(json), portal_url, last_verified
