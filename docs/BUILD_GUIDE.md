@@ -38,6 +38,65 @@ Rules of thumb:
 
 ---
 
+## Phase 0.5 — JavaScript for Python programmers (~1–2 weeks)
+
+You already know how to program. You just need JavaScript's syntax and a few new ideas.
+Do these exercises in a `learn/` folder (it's gitignored, so it's your scratch space) and run them with `node learn/01-basics.js`.
+
+### Python → JavaScript cheat sheet
+
+| Python | JavaScript |
+|---|---|
+| `name = "Rohan"` | `const name = "Rohan";` (can't reassign) / `let count = 0;` (can reassign) |
+| `print(x)` | `console.log(x);` |
+| `f"Hi {name}"` | `` `Hi ${name}` `` (backticks) |
+| `True / False / None` | `true / false / null` (and `undefined`) |
+| `and / or / not` | `&& / \|\| / !` |
+| `==` | `===` (always use triple equals) |
+| `if x > 5:` + indent | `if (x > 5) { ... }` |
+| `elif` | `else if` |
+| `for item in items:` | `for (const item of items) { ... }` |
+| `def add(a, b): return a + b` | `function add(a, b) { return a + b; }` or `const add = (a, b) => a + b;` |
+| list `[1, 2, 3]` | array `[1, 2, 3]` |
+| `len(items)` | `items.length` |
+| `items.append(4)` | `items.push(4)` |
+| `[x * 2 for x in items]` | `items.map(x => x * 2)` |
+| `[x for x in items if x > 1]` | `items.filter(x => x > 1)` |
+| dict `{"name": "TUM"}` | object `{ name: "TUM" }` |
+| `uni["name"]` | `uni.name` (or `uni["name"]`) |
+| `name, city = ("TUM", "Munich")` | `const [name, city] = ["TUM", "Munich"];` |
+| — | `const { name, city } = uni;` (pull fields out of an object) |
+| `import x from y` | `import x from "y";` |
+| `try / except` | `try { } catch (err) { }` |
+
+### The new ideas (these matter most for React)
+1. **Arrow functions:** `const double = (x) => x * 2;`
+2. **`map` and `filter`:** React renders lists with `.map()` all the time.
+3. **Destructuring and spread:** `const { title } = props;`, `const copy = { ...uni, city: "Berlin" };`
+4. **Async/await:** like Python's `async`; used for fetching data: `const res = await fetch(url);`
+5. **TypeScript:** JavaScript plus types, like Python type hints, but checked: `function add(a: number, b: number): number`.
+
+### Exercises
+**E1 – basics** (`learn/01-basics.js`): make an array of 5 universities as objects `{ name, country, tuition, deadline }`. Print each one as `"TUM (Germany) – €0"` using a `for...of` loop and a template string.
+
+**E2 – map/filter** (`learn/02-arrays.js`): using the same array:
+- get a list of only the German universities (`filter`)
+- get a list of just the names (`map`)
+- get the total tuition of all of them (`reduce`, or a loop)
+- sort them by deadline
+
+**E3 – functions & destructuring** (`learn/03-functions.js`): write `formatUni({ name, country })` that returns a string, using destructuring in the parameters. Write `daysUntil(dateString)` that returns how many days are left until a deadline (use `new Date()`).
+
+**E4 – TypeScript** (`learn/04-types.ts`, run with `npx tsx learn/04-types.ts`): rewrite E1–E3 with a `type University = { ... }` and typed functions. Introduce a mistake (e.g. pass a number as `name`) and read the error.
+
+**E5 – HTML/CSS refresh:** make `learn/index.html` with a heading, a list of universities and a card style in CSS. Open it in the browser. Then do the same with Tailwind classes inside the Next.js project in Phase 1.
+
+Resources: https://javascript.info (Part 1, chapters 1–6 are enough for now) · https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
+
+**Done when:** you can do E2 without looking at the cheat sheet.
+
+---
+
 ## The project structure (what each file is)
 
 ```
