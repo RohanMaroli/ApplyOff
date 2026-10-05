@@ -27,9 +27,18 @@
 
 Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2** = later.
 
-### M1. Accounts & profile — P0
-- Sign up / log in with email + Google.
-- Profile: name, country, current location.
+### M1. Accounts & login — P0
+- Sign up / log in with email + password, and with Google.
+- Email verification and "forgot password" reset.
+- Stay logged in across visits; log out (including from all devices).
+- Short onboarding after first sign-up that sends the user to set up their profile (M2) and roadmap (M10).
+- Account settings: change email/password, notification preferences (M13).
+- Export my data / delete my account and all data.
+- Roles: *applicant* (default), *admin*. Recommenders never need an account (M9).
+
+### M2. Profile — P0
+- Basic info: name, country, current location.
+- Preferences: target countries, fields, intake (e.g. Fall 2027), budget.
 - **Academic record** (one per degree; usually the bachelor's, optionally a previous master's/diploma):
   - University, degree, major, country.
   - **Status:** *In progress* or *Completed*.
@@ -42,34 +51,41 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
   - **Grade conversions** shown for reference only, clearly labelled as approximate (e.g. German modified Bavarian formula, a rough 4.0 equivalent); the original grade is what applications use.
 - Applications and requirement checks use the latest *declared* grade, flagging "degree in progress" where a program needs a final transcript.
 - A reminder after each semester's results to update the record.
-- **Tests** (GRE, GMAT, IELTS, TOEFL, PTE, Duolingo, language tests like TestDaF/Goethe):
-  - Which tests are needed is worked out from the user's target programs (M2), so beginners don't have to know.
-  - Status per test: *Not needed → Needed → Preparing → Booked (date) → Taken → Score received*.
-  - Target score (suggested from target programs' requirements) and test date.
-  - **Score fields stay blank until results arrive**; the user enters them then. Section scores too (e.g. GRE Verbal/Quant/AWA, IELTS L/R/W/S).
-  - Score expiry date shown (e.g. GRE 5 years, IELTS/TOEFL 2 years) with a warning if it expires before the intake.
-  - Prep for each test lives in M12.
 - **Experience**, as separate types because universities weigh them differently:
-  - **Full-time work:** company, role, dates, description. Total months is calculated (some programs, e.g. MBA/management, require a minimum).
-  - **Internships:** company, role, dates, description; counted separately from full-time work.
-  - **Research:** lab/professor, topic, dates, outcome; important for research-based programs and German universities. A good source for SOPs and LORs.
-  - **Projects:** academic/personal, tech used, link (GitHub/portfolio).
-  - **Publications:** title, venue, authors, status (*Under review / Accepted / Published*), link.
-  - **Certifications & courses:** e.g. Coursera, AWS.
-  - **Extracurriculars & volunteering:** leadership, clubs, competitions, awards.
-  - Each item can be marked *ongoing*, and can be tagged as a possible LOR source (its supervisor/manager).
-  - This data later fills the CV builder (M6) and suggests SOP material (M5).
-- Preferences: target countries, fields, intake (e.g. Fall 2027), budget.
-- Users can edit or delete their account and data.
+- **Full-time work:** company, role, dates, description. Total months is calculated (some programs, e.g. MBA/management, require a minimum).
+- **Internships:** company, role, dates, description; counted separately from full-time work.
+- **Research:** lab/professor, topic, dates, outcome; important for research-based programs and German universities. A good source for SOPs and LORs.
+- **Projects:** academic/personal, tech used, link (GitHub/portfolio).
+- **Publications:** title, venue, authors, status (*Under review / Accepted / Published*), link.
+- **Certifications & courses:** e.g. Coursera, AWS.
+- **Extracurriculars & volunteering:** leadership, clubs, competitions, awards.
+- Each item can be marked *ongoing*, and can be tagged as a possible LOR source (its supervisor/manager).
+- This data later fills the CV builder (M8) and suggests SOP material (M7).
 
-### M2. Program database — P0 (basic) / P1 (rich)
+### M3. Tests — tracking P0 / prep P1
+**Tracking** (GRE, GMAT, IELTS, TOEFL, PTE, Duolingo, language tests like TestDaF/Goethe):
+- Which tests are needed is worked out from the user's target programs (M4), so beginners don't have to know.
+- Status per test: *Not needed → Needed → Preparing → Booked (date) → Taken → Score received*.
+- Target score (suggested from target programs' requirements) and test date.
+- **Score fields stay blank until results arrive**; the user enters them then. Section scores too (e.g. GRE Verbal/Quant/AWA, IELTS L/R/W/S).
+- Score expiry date shown (e.g. GRE 5 years, IELTS/TOEFL 2 years) with a warning if it expires before the intake.
+
+**Prep:**
+- Hub per test (IELTS, GRE first; TOEFL, GMAT, Duolingo, PTE later): format explained, scoring, what score is "good" for the user's targets.
+- Study plan generated from test date + target score + available hours per week; shows on the roadmap.
+- Curated free resources per section (official materials first), plus practice question sets.
+- Diagnostic test to find a starting level (P2); practice tests with score tracking over time (P2).
+- AI help (P2): IELTS writing/essay feedback, GRE AWA feedback, speaking practice prompts.
+- Booking guidance: where/how to book, fees, how early to book, sending scores to universities.
+
+### M4. Program database — P0 (basic) / P1 (rich)
 - Searchable list of universities and programs: name, country, degree, field, intake(s).
 - Per program: deadlines, application fee, tuition, required tests + minimum scores, required documents (SOP, CV, # of LORs, transcripts, portfolio), application portal link.
 - Filters: country, field, tuition range, test requirements, deadline.
 - Data source: admin-entered first; later user-submitted corrections (P1) that an admin approves.
 - Every program shows a "last verified" date.
 
-### M3. Application tracker — P0 ⭐ (build first)
+### M5. Application tracker — P0 ⭐
 - Add a program to "My applications" (from the database or as a custom entry).
 - Status pipeline: *Researching → Preparing → Submitted → Interview → Admitted / Rejected / Waitlisted → Accepted / Declined*.
 - Per application: deadline, fee paid, portal login link, notes, priority (dream / target / safe).
@@ -78,57 +94,49 @@ Priority: **P0** = MVP (must have to launch), **P1** = soon after launch, **P2**
 - Dashboard: count by status, next 3 deadlines, overdue items.
 - Email reminders before deadlines (P1).
 
-### M4. Document hub — P0 (upload/store) / P1 (editors)
+### M6. Document hub — P0 (upload/store) / P1 (editors)
 - Upload and store SOPs, CVs, transcripts, test reports, LORs (PDF/DOCX, size limit).
 - Version history per document ("SOP v3").
 - Link documents to one or more applications; checklist ticks itself when linked.
 - Files are private to the owner by default.
 
-### M5. SOP builder — P1
+### M7. SOP builder — P1
 - Guided questionnaire (why this field, why this program, career goals, key experiences).
 - Rich-text editor with word count and program-specific word limits.
 - Tailored versions per program, all derived from a base SOP.
 - AI assist (P1): generate an outline, give feedback on clarity/structure, flag generic phrases. **The AI suggests; the user writes.** Show a clear disclaimer about honesty and plagiarism policies.
 
-### M6. CV / resume builder — P1
+### M8. CV / resume builder — P1
 - Academic CV template(s) built from profile data (education, research, publications, projects, skills).
 - Live preview and PDF export.
 - AI bullet-point improvement (P1).
 
-### M7. LOR manager — P1
+### M9. LOR manager — P1
 - Add recommenders (name, email, relation, which applications).
 - Send a request email with a unique secure link; recommender can upload a letter without signing up.
 - Status per recommender per application: *Not asked → Asked → Agreed → Submitted*.
 - Automatic polite reminders; the applicant can't read the letter unless the recommender allows it.
 
-### M12. Test prep — P1
-- Hub per test (IELTS, GRE first; TOEFL, GMAT, Duolingo, PTE later): format explained, scoring, what score is "good" for the user's targets.
-- Study plan generated from test date + target score + available hours per week; shows on the roadmap.
-- Curated free resources per section (official materials first), plus practice question sets.
-- Diagnostic test to find a starting level (P2); practice tests with score tracking over time (P2).
-- AI help (P2): IELTS writing/essay feedback, GRE AWA feedback, speaking practice prompts.
-- Booking guidance: where/how to book, fees, how early to book, sending scores to universities.
-
-### M8. Roadmap & prep — P1
+### M10. Roadmap & guides — P1
 - Generate a personalised timeline from intake + target countries + profile (e.g. "T-12 months: shortlist; T-9: take GRE; T-6: request LORs").
 - Onboarding for beginners: a short questionnaire (field, countries, intake, budget, where you are now) gives a starting roadmap, so a user with nothing figured out knows their first step.
-- Roadmap items become checkable tasks with dates, including test prep milestones from M12.
+- Roadmap items become checkable tasks with dates, including test prep milestones from M3.
 - Prep library: guides per country (visa, costs, timelines), per test (GRE/IELTS resources), sample SOPs (with permission), FAQ.
 - Guides are public pages (good for SEO / bringing in users).
 
-### M9. Community — P2
+### M11. Community — P2
 - Public profile (opt-in, anonymity allowed): background, targets, results.
 - Results feed: "Admitted to X with GPA Y, GRE Z" (like GradCafe), searchable per program.
 - Discussion groups per program/intake and per country; posts, comments, upvotes.
 - Direct messages (P2+).
 - Moderation: report button, admin review queue, basic spam/profanity filtering.
 
-### M10. Admin panel — P0 (minimal)
+### M12. Admin panel — P0 (minimal)
 - CRUD for universities/programs and guides.
 - Approve user-submitted program corrections (P1) and handle reports (P2).
 - Basic stats: users, applications created.
 
-### M11. Notifications — P1
+### M13. Notifications — P1
 - In-app notification bell + email for deadlines, LOR updates, replies.
 - User-controlled notification settings.
 
@@ -186,17 +194,18 @@ posts / comments / results   (community, later)
 |---|---|---|
 | **0. Foundations** (2–4 wks) | Static landing page | HTML, CSS, JavaScript, Git/GitHub |
 | **1. Setup** | Next.js + Tailwind project, deployed to Vercel | React components, routing, deployment |
-| **2. Auth & profile** (M1) | Sign up, log in, profile form | Supabase auth, forms, database basics, sessions |
-| **3. Tracker** (M3) ⭐ | Add/edit/delete applications, table + kanban, dashboard | CRUD, relational data, state, server actions/API routes |
-| **4. Program database** (M2, M10) | Program search + filters, simple admin page | Queries, filtering, pagination, roles/permissions |
-| **5. Documents** (M4) | Uploads, versions, link to applications | File storage, security rules, signed URLs |
+| **2. Login** (M1) | Sign up, log in, Google login, password reset, protected pages | Auth, sessions, cookies, route protection |
+| **3. Profile** (M2) | Profile, academics, experience forms | Forms + validation, database tables & relations, editing/deleting data |
+| **4. Tracker** (M5) ⭐ | Add/edit/delete applications, table + kanban, dashboard | CRUD, relational data, state, server actions/API routes |
+| **5. Program database** (M4, M12) | Program search + filters, simple admin page | Queries, filtering, pagination, roles/permissions |
+| **6. Documents + test tracking** (M6, M3 tracking) | Uploads, versions, link to applications; test status & scores | File storage, security rules, signed URLs |
 | **→ Launch MVP** | Get 10–20 real applicants using it | Feedback, analytics, bug fixing |
-| **6. LOR manager** (M7) | Recommender links + emails | Transactional email, secure tokens, background jobs |
-| **7. SOP/CV + AI** (M5, M6) | Editors, PDF export, AI feedback | Rich-text editors, LLM APIs, prompt design, rate limiting |
-| **8. Roadmap, guides & test prep** (M8, M12) | Onboarding, generated timeline, test hubs + study plans, public guide pages | Date logic, content/SEO, static generation |
-| **9. Community** (M9) | Results feed, groups, moderation | Realtime, moderation, scaling |
+| **7. LOR manager** (M9) | Recommender links + emails | Transactional email, secure tokens, background jobs |
+| **8. SOP/CV + AI** (M7, M8) | Editors, PDF export, AI feedback | Rich-text editors, LLM APIs, prompt design, rate limiting |
+| **9. Roadmap, guides & test prep** (M10, M3 prep) | Generated timeline, test hubs + study plans, public guide pages | Date logic, content/SEO, static generation |
+| **10. Community** (M11) | Results feed, groups, moderation | Realtime, moderation, scaling |
 
-**MVP = phases 1–5.** Everything after that ships one module at a time.
+**MVP = phases 1–6.** Everything after that ships one module at a time.
 
 ## 8. Open questions
 
