@@ -334,7 +334,30 @@ posts / comments / results   (community, later)
 
 **MVP = phases 1–6.** Everything after that ships one module at a time.
 
-## 8. Decisions made
+## 8. Business model: free for students, paid by partners
+
+Like LinkedIn: the people using the site never pay to use it. Money comes from organisations that want to reach them.
+
+| Revenue stream | Who pays | When | Notes |
+|---|---|---|---|
+| **Partner referrals** | Blocked account, health insurance, education loan, forex, test prep, accommodation providers | From launch | Offered inside the relevant checklist item (e.g. "Proof of funds"). Always labelled as partner links, with at least one non-partner option and a plain comparison. |
+| **University & program pages** | Universities | Once there are enough users | Verified pages, events/webinars, direct Q&A with applicants. Clearly labelled "Sponsored"; **never changes search order, eligibility hints or rankings**. No per-student commissions. |
+| **Reviewer marketplace** | Students who choose to pay, ApplyOff takes a cut | With the community (M11) | Admitted students/alumni review SOPs/CVs. Free community help stays free. |
+| **Optional Premium** | Power users (like LinkedIn Premium) | With AI features | Extra AI reviews, profile insights. Core features never move behind the paywall. |
+| **B2B dashboards** | Colleges, coaching institutes | Later | Track their students' applications. |
+
+**Rules that protect trust (the product's advantage):**
+- Core tools (tracker, documents, programs, roadmap, community) stay free forever.
+- Sponsored content is always labelled and never affects recommendations or rankings.
+- No selling of personal data. Users opt in before their details go to any partner (e.g. a loan provider).
+- AI features are rate-limited on the free tier, since they're the main cost that grows with users.
+
+**Implications for the build:**
+- A `partners` table and tracked referral links (click → partner, with consent) — P1.
+- "Sponsored" flag on university/program pages — P2.
+- Free-tier limits on AI usage — with M7/M8.
+
+## 9. Decisions made
 
 - **Launch countries: Germany and the USA.** (Very different systems, which tests that the data model is flexible.)
 - **Rankings:** shown, always with their source and year.
@@ -342,10 +365,10 @@ posts / comments / results   (community, later)
 - **Sensitive documents:** passports and financial documents are tracked as checklist items but never uploaded/stored.
 - **Tracker:** starts simple (table + dashboard); kanban and calendar come in P1. No limit on applications per user.
 - **Sign-in:** Google OAuth first, email as fallback.
+- **Business model:** free for students; revenue from partner referrals, labelled university pages, a reviewer marketplace and optional Premium (see section 8).
 
-## 9. Open questions
+## 10. Open questions
 
 - Fields to cover first (e.g. CS / Data Science / Engineering)?
 - Who maintains program data long-term, and how often is it re-verified?
-- Monetisation: free core + paid AI credits? University partnerships (with neutrality kept)?
 - Anonymity rules for the community and results feed.
